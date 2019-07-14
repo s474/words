@@ -1,16 +1,13 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Project Template",
-    "keywords": ["yii2", "framework", "advanced", "project template"],
-    "homepage": "http://www.yiiframework.com/",
+    "name": "sssssss/rooms",
+    "description": "Words",
+    "keywords": ["words", "hardwords"],
+    "homepage": "http://sssssss.co.uk/words/frontend/web/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
+        "issues": "http://sssssss.co.uk/words/frontend/web/",
+        "source": "https://github.com/s474/words"
     },
     "minimum-stability": "stable",
     "require": {
