@@ -14,7 +14,7 @@ class m200511_163452_from_old_hardwords_db extends Migration
     {
         $this->execute(
             "
-CREATE TABLE IF NOT EXISTS `tbl_lists` (
+CREATE TABLE IF NOT EXISTS `list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `tbl_lists` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `tbl_lists` (`id`, `user_id`, `name`) VALUES
+INSERT INTO `list` (`id`, `user_id`, `name`) VALUES
 (1, 1, 'The Handmaid\'s Tale'),
 (2, 1, 'Blood Meridian'),
 (3, 2, 'Mr. Mercedes'),
@@ -39,7 +39,7 @@ INSERT INTO `tbl_lists` (`id`, `user_id`, `name`) VALUES
 (15, 1, 'Snakecharmers in Texas'),
 (16, 1, 'All The Pretty Horses');
 
-CREATE TABLE IF NOT EXISTS `tbl_list_words` (
+CREATE TABLE IF NOT EXISTS `list_word` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `list_id` int(11) NOT NULL,
   `word_id` int(11) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `tbl_list_words` (
   KEY `list_id` (`list_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `tbl_list_words` (`id`, `list_id`, `word_id`) VALUES
+INSERT INTO `list_word` (`id`, `list_id`, `word_id`) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 1, 3),
@@ -285,25 +285,14 @@ INSERT INTO `tbl_list_words` (`id`, `list_id`, `word_id`) VALUES
 (266, 16, 302),
 (267, 16, 303);
 
-CREATE TABLE IF NOT EXISTS `tbl_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO `tbl_users` (`id`, `name`, `password`) VALUES
-(1, 'simon', 'password'),
-(2, 'jasper', 'password');
-
-CREATE TABLE IF NOT EXISTS `tbl_words` (
+CREATE TABLE IF NOT EXISTS `word` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `word` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `definition` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `tbl_words` (`id`, `word`, `definition`) VALUES
+INSERT INTO `word` (`id`, `word`, `definition`) VALUES
 (1, 'palimpsest', ':writing material (as a parchment or tablet) used one or more times after earlier writing has been erased'),
 (2, 'flannelette', ''),
 (3, 'memento mori', ':a reminder of mortality'),
@@ -609,12 +598,12 @@ INSERT INTO `tbl_words` (`id`, `word`, `definition`) VALUES
 (310, 'haecceity', 'that property or quality of a thing by virtue of which it is unique or describable as ‘this (one)’.\r\nthe property of being a unique and individual thing');
 
 
-ALTER TABLE `tbl_lists`
-  ADD CONSTRAINT `tbl_lists_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE `list`
+  ADD CONSTRAINT `list_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE `tbl_list_words`
-  ADD CONSTRAINT `tbl_list_words_ibfk_1` FOREIGN KEY (`list_id`) REFERENCES `tbl_lists` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `tbl_list_words_ibfk_2` FOREIGN KEY (`word_id`) REFERENCES `tbl_words` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
+ALTER TABLE `list_word`
+  ADD CONSTRAINT `list_word_ibfk_1` FOREIGN KEY (`list_id`) REFERENCES `list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `list_word_ibfk_2` FOREIGN KEY (`word_id`) REFERENCES `word` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
         );
     }
 
