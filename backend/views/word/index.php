@@ -25,7 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'word',               
+            'word',
+            'definition:ntext',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{delete}',
@@ -47,17 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ], 
-            
-            /*
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'word',
-            'definition:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
-             * 
-             */
         ],
     ]); ?>
 
