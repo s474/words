@@ -53,8 +53,14 @@ class WordlistController extends Controller
      */
     public function actionView($id)
     {
+        $wordlistWordSearchModel = new WordlistWordSearch();
+        $wordlistWordSearchModel->wordlist_id = $model->id;
+        $wordlistWordDataProvider = $wordlistWordSearchModel->search(Yii::$app->request->queryParams);
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'wordlistWordSearchModel' => $wordlistWordSearchModel,
+            'wordlistWordDataProvider' => $wordlistWordDataProvider,            
         ]);
     }
 

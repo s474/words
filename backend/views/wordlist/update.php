@@ -25,12 +25,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'dataProvider' => $wordlistWordDataProvider,
         'filterModel' => $wordlistWordSearchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'word.word',
-            //'definition:ntext',
-
+            'word.word',            
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

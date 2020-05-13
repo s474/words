@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Wordlist */
@@ -31,8 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'user_id',
+            'user.username',            
             'name',
         ],
     ]) ?>
-
+    
+    <?= GridView::widget([
+        'dataProvider' => $wordlistWordDataProvider,
+        'filterModel' => $wordlistWordSearchModel,
+        'columns' => [
+            'word.word',            
+        ],
+    ]); ?>
+    
 </div>
