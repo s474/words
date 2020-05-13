@@ -14,7 +14,7 @@ class m200511_163452_from_old_hardwords_db extends Migration
     {
         $this->execute(
             "
-CREATE TABLE IF NOT EXISTS `list` (
+CREATE TABLE IF NOT EXISTS `wordlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `list` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `list` (`id`, `user_id`, `name`) VALUES
+INSERT INTO `wordlist` (`id`, `user_id`, `name`) VALUES
 (1, 1, 'The Handmaid\'s Tale'),
 (2, 1, 'Blood Meridian'),
 (3, 2, 'Mr. Mercedes'),
@@ -39,16 +39,16 @@ INSERT INTO `list` (`id`, `user_id`, `name`) VALUES
 (15, 1, 'Snakecharmers in Texas'),
 (16, 1, 'All The Pretty Horses');
 
-CREATE TABLE IF NOT EXISTS `list_word` (
+CREATE TABLE IF NOT EXISTS `wordlist_word` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `list_id` int(11) NOT NULL,
+  `wordlist_id` int(11) NOT NULL,
   `word_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `word_id` (`word_id`),
-  KEY `list_id` (`list_id`)
+  KEY `wordlist_id` (`wordlist_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `list_word` (`id`, `list_id`, `word_id`) VALUES
+INSERT INTO `wordlist_word` (`id`, `wordlist_id`, `word_id`) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 1, 3),
@@ -445,7 +445,7 @@ INSERT INTO `word` (`id`, `word`, `definition`) VALUES
 (157, 'steatosis', NULL),
 (158, 'asperity', NULL),
 (159, 'farceurs', NULL),
-(160, 'funambulist', NULL),
+(160, 'funambuwordlist', NULL),
 (161, 'apercu', NULL),
 (162, 'opprobrium', NULL),
 (163, 'gerontocracy ', NULL),
@@ -598,12 +598,12 @@ INSERT INTO `word` (`id`, `word`, `definition`) VALUES
 (310, 'haecceity', 'that property or quality of a thing by virtue of which it is unique or describable as ‘this (one)’.\r\nthe property of being a unique and individual thing');
 
 
-ALTER TABLE `list`
-  ADD CONSTRAINT `list_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE `wordlist`
+  ADD CONSTRAINT `wordlist_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
-ALTER TABLE `list_word`
-  ADD CONSTRAINT `list_word_ibfk_1` FOREIGN KEY (`list_id`) REFERENCES `list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `list_word_ibfk_2` FOREIGN KEY (`word_id`) REFERENCES `word` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
+ALTER TABLE `wordlist_word`
+  ADD CONSTRAINT `wordlist_word_ibfk_1` FOREIGN KEY (`wordlist_id`) REFERENCES `wordlist` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `wordlist_word_ibfk_2` FOREIGN KEY (`word_id`) REFERENCES `word` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;"
         );
     }
 
