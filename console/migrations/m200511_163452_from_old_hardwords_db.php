@@ -289,7 +289,8 @@ CREATE TABLE IF NOT EXISTS `word` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `word` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `definition` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `word` (`word`)
 ) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `word` (`id`, `word`, `definition`) VALUES
