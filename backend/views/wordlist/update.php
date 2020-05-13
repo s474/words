@@ -1,6 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\GridView;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Wordlist */
@@ -16,6 +19,24 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-    ]) ?>
+    ]) ?>    
 
+    <?= GridView::widget([
+        'dataProvider' => $wordlistWordDataProvider,
+        'filterModel' => $wordlistWordSearchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'word.word',
+            //'definition:ntext',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+
+    <p>
+        <?= Html::a('Add Word', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    
 </div>

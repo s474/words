@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Wordlist;
 use common\models\WordlistSearch;
+use common\models\WordlistWordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -89,9 +90,15 @@ class WordlistController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+        
+        $wordlistWordSearchModel = new WordlistWordSearch();
+        $wordlistWordSearchModel->wordlist_id = $model->id;
+        $wordlistWordDataProvider = $wordlistWordSearchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('update', [
             'model' => $model,
+            'wordlistWordSearchModel' => $wordlistWordSearchModel,
+            'wordlistWordDataProvider' => $wordlistWordDataProvider,            
         ]);
     }
 
