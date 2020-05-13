@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -24,6 +25,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            'word',               
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                            'title' => Yii::t('app', 'Delete'),
+                            'data' => [
+                                'confirm' => 'Are you sure you want to delete this item?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    }
+                ],
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    if ($action === 'delete') {
+                        $url = Url::to(['word/delete', 'id' => $model->id]);
+                        return $url;
+                    }
+                }
+            ], 
+            
+            /*
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
@@ -31,6 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'definition:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
+             * 
+             */
         ],
     ]); ?>
 
