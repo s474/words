@@ -25,7 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'word',
+            [
+                'attribute' => 'word',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a($data->word, ['word/update', 'id' => $data->id]);
+                },
+                //'visible' => \Yii::$app->user->can('super'),                        
+            ],            
             'definition:ntext',
             [
                 'class' => 'yii\grid\ActionColumn',
