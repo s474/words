@@ -2,8 +2,6 @@
 
 namespace backend\modules\importSpreadsheet\models;
 
-use backend\models\DynamicForm;
-
 class ImportForm extends DynamicForm
 {
     public $matchField;
