@@ -368,6 +368,12 @@ class ImportSpreadsheet extends \yii\base\Module
             $err[] = $this->matchField . ' not found in ' . $this->model;
         }
 
+        foreach ($this->setFields as $setField => $setValue) {
+            if (!$uModel->hasProperty($setField)) {
+                $err[] = 'setField[\'' . $setField . '\'] not found in ' . $this->model;
+            }
+        }
+        
         $firstRow = 1 + $this->skipRows;
         $row = $firstRow;
         $matchCol = false;
