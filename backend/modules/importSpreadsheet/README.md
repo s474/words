@@ -2,6 +2,8 @@ Link to importSpreadsheet/import/upload,
 
 Must pass model.
 
+Usually tables have a field 'name' - this is default value of matchField. set e.g. 'matchField' => 'word', if not matching on name field (for duplicates inserting from spreadsheet).
+
 
 Examples,
 
@@ -61,19 +63,6 @@ Examples,
         'fields' => $importFields,
         'autoMap' => 0,
         'skipRows' => 3,
-        'returnRoute' => Yii::$app->request->url,
-    ], 
-    ['class' => 'btn btn-primary']) 
-?>
-
-
-<?= Html::a(Yii::t('app', 'Import Items Manual Map WRONG matchField'), 
-    [
-        'importSpreadsheet/import/upload', 
-        'model' => '\backend\models\Item', 
-        'fields' => $importFields,
-        'matchField' => 'SOMETHINGWRONG',
-        'autoMap' => 0,
         'returnRoute' => Yii::$app->request->url,
     ], 
     ['class' => 'btn btn-primary']) 

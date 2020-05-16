@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = 'Update';
         [
             'importSpreadsheet/import/upload', 
             'model' => '\common\models\Word',
+            'matchField' => 'word',
             'fields' => ['word', 'definition'],
             'autoMap' => 1,
             'returnRoute' => Yii::$app->request->url,
@@ -49,7 +50,8 @@ $this->params['breadcrumbs'][] = 'Update';
         [
             'importSpreadsheet/import/upload', 
             'model' => '\common\models\Word',
-            'fields' => $importFields,
+            'matchField' => 'word',            
+            'fields' => ['word', 'definition'],
             'autoMap' => 0,
             'returnRoute' => Yii::$app->request->url,
         ], 
