@@ -7,7 +7,6 @@ use yii\base\Model;
 class DynamicForm extends Model
 {
     private $dynamicFields;
-    private $dynamicLabels;
     private $dynamicData;
     protected $dynamicRules = [];
 
