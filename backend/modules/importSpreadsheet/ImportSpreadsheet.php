@@ -17,6 +17,7 @@ class ImportSpreadsheet extends \yii\base\Module
     private $autoMap = 0;
     private $skipRows = 0;
     private $matchField = 'name';    
+    private $matchRelation = 0; // Used if importing to a joining table (e.g. WordlistWords, matchField will look in related table)    
     private $returnRoute;
     private $matchCol;
     private $headings; // All column headings from sheet
@@ -33,7 +34,7 @@ class ImportSpreadsheet extends \yii\base\Module
     private $reportFailedNew;
     private $reportFailedUpdated;
     private $err = [];
-
+           
     public function init()
     {
         parent::init();
@@ -71,6 +72,10 @@ class ImportSpreadsheet extends \yii\base\Module
             if (isset($get['matchField'])) {
                 $this->matchField = $get['matchField'];
             }
+            
+            if (isset($get['matchRelation'])) {
+                $this->matchRelation = $get['matchRelation'];
+            }            
 
             if (isset($get['returnRoute'])) {
                 $this->returnRoute = $get['returnRoute'];
@@ -181,6 +186,16 @@ class ImportSpreadsheet extends \yii\base\Module
     {
         return $this->matchField;
     }
+    
+    public function setMatchRelation($value)
+    {
+        $this->matchRelation = $value;
+    }
+
+    public function getMatchRelation()
+    {
+        return $this->matchRelation;
+    }    
 
     public function setReturnRoute($value)
     {
@@ -364,10 +379,26 @@ class ImportSpreadsheet extends \yii\base\Module
         $err = [];
 
         $uModel = new $this->model();
-        if (!$uModel->hasProperty($this->matchField)) {
-            $err[] = $this->matchField . ' not found in ' . $this->model;
+        
+        if (isset($this->matchRelation)) { 
+            
+            $relation = $uModel->getRelation($this->matchRelation);
+            
+            if (!$relation) {            
+                $err[] = $this->matchRelation . ' relation not found in ' . $this->model;
+            } else {                
+                //var_dump($relation);
+                if (!$relation->primaryModel->hasProperty($this->matchField)) {
+                    $err[] = $this->matchField . ' not found in ' . $relation->modelClass . ' (from relation: ' . $this->matchRelation . ')';
+                }
+            }
+            
+        } else {
+            if (!$uModel->hasProperty($this->matchField)) {            
+                $err[] = $this->matchField . ' not found in ' . $this->model;
+            }
         }
-
+        
         foreach ($this->setFields as $setField => $setValue) {
             if (!$uModel->hasProperty($setField)) {
                 $err[] = 'setField[\'' . $setField . '\'] not found in ' . $this->model;

@@ -58,5 +58,29 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-
+    <?= Html::a(Yii::t('app', 'Import Words Auto Map'), 
+        [
+            'importSpreadsheet/import/upload', 
+            'model' => '\common\models\Word',
+            'matchField' => 'word',
+            'fields' => ['word', 'definition'],
+            'setFields' => ['wordlist_id' => $model->id],            
+            'autoMap' => 1,
+            'returnRoute' => Yii::$app->request->url,
+        ], 
+        ['class' => 'btn btn-primary']) 
+    ?>
+    
+    <?= Html::a(Yii::t('app', 'Import Words Manual Map'),
+        [
+            'importSpreadsheet/import/upload', 
+            'model' => '\common\models\Word',
+            'matchField' => 'word',            
+            'fields' => ['word', 'definition'],
+            'setFields' => ['wordlist_id' => $model->id],
+            'autoMap' => 0,
+            'returnRoute' => Yii::$app->request->url,
+        ], 
+        ['class' => 'btn btn-primary']) 
+    ?>
 </div>
