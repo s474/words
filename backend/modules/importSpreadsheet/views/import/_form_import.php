@@ -12,6 +12,7 @@ use yii\widgets\ActiveForm;
             'model' => $module->model,
             'file' => $module->file,
             'fields' => $module->fields,
+            'setFields' => $module->setFields,            
             'autoMap' => $module->autoMap,
             'skipRows' => $module->skipRows,
             'matchField' => $module->matchField,

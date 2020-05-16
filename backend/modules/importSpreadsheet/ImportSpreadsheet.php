@@ -12,10 +12,11 @@ class ImportSpreadsheet extends \yii\base\Module
     public $controllerNamespace = 'backend\modules\importSpreadsheet\controllers';
     private $model;
     private $fields = []; // Fields to map - passed when calling module - automap updates to foundHeadings before import
+    private $setFields = []; // Fields to set e.g. importing words to wordlist would set wordlist_id
     private $file;
     private $autoMap = 0;
     private $skipRows = 0;
-    private $matchField = 'name';
+    private $matchField = 'name';    
     private $returnRoute;
     private $matchCol;
     private $headings; // All column headings from sheet
@@ -50,6 +51,10 @@ class ImportSpreadsheet extends \yii\base\Module
             if (isset($get['fields'])) {
                 $this->fields = $get['fields'];
             }
+            
+            if (isset($get['setFields'])) {
+                $this->setFields = $get['setFields'];
+            }            
 
             if (isset($get['file'])) {
                 $this->file = $get['file'];
@@ -136,6 +141,16 @@ class ImportSpreadsheet extends \yii\base\Module
     {
         return $this->fields;
     }
+    
+    public function setSetFields($value)
+    {
+        $this->setFields = $value;
+    }
+
+    public function getSetFields()
+    {
+        return $this->setFields;
+    }    
 
     public function setAutoMap($value)
     {

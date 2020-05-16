@@ -69,12 +69,26 @@ Examples,
 ?>
 
 
-<?= Html::a(Yii::t('app', 'Import Items Manual Map Description is matchField'), 
+<?= Html::a(Yii::t('app', 'Import Items Manual Map word is matchField'), 
     [
         'importSpreadsheet/import/upload', 
         'model' => '\backend\models\Item', 
         'fields' => $importFields,
-        'matchField' => 'description',
+        'matchField' => 'word',
+        'autoMap' => 0,
+        'returnRoute' => Yii::$app->request->url,
+    ], 
+    ['class' => 'btn btn-primary']) 
+?>
+
+
+<?= Html::a(Yii::t('app', 'Import Items Manual Map word is matchField with wordlist_id being set'), 
+    [
+        'importSpreadsheet/import/upload', 
+        'model' => '\backend\models\Item', 
+        'fields' => ['name', 'description'],
+        'setFields' => ['wordlist_id' => '303'],
+        'matchField' => 'word',
         'autoMap' => 0,
         'returnRoute' => Yii::$app->request->url,
     ], 
