@@ -17,7 +17,7 @@ class ImportSpreadsheet extends \yii\base\Module
     private $autoMap = 0;
     private $skipRows = 0;
     private $matchField = 'name';    
-    private $matchRelation = 0; // Used if importing to a joining table (e.g. WordlistWords, matchField will look in related table)    
+    private $matchRelation = null; // Use if importing to a 'joining' table (e.g. 'WordlistWords', matchField will look in related model)    
     private $returnRoute;
     private $matchCol;
     private $headings; // All column headings from sheet
