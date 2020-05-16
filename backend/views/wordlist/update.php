@@ -34,4 +34,26 @@ $this->params['breadcrumbs'][] = 'Update';
         <?= Html::a('Add Word', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     
+    <?= Html::a(Yii::t('app', 'Import Words Auto Map'), 
+        [
+            'importSpreadsheet/import/upload', 
+            'model' => '\common\models\Word',
+            'fields' => ['word', 'definition'],
+            'autoMap' => 1,
+            'returnRoute' => Yii::$app->request->url,
+        ], 
+        ['class' => 'btn btn-primary']) 
+    ?>
+    
+    <?= Html::a(Yii::t('app', 'Import Words Manual Map'), 
+        [
+            'importSpreadsheet/import/upload', 
+            'model' => '\common\models\Word',
+            'fields' => $importFields,
+            'autoMap' => 0,
+            'returnRoute' => Yii::$app->request->url,
+        ], 
+        ['class' => 'btn btn-primary']) 
+    ?>    
+
 </div>

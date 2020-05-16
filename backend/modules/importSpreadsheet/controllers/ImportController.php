@@ -26,7 +26,7 @@ class ImportController extends Controller
                     $module->import($sheet);
 
                     // Report back
-                    return $this->render('done.twig', ['module' => $module]);
+                    return $this->render('done.php', ['module' => $module]);
                 }
 
                 // Not auto mapping - user must map columns to fields
@@ -55,13 +55,13 @@ class ImportController extends Controller
                     'highestColumn' => $module->highestColumn,
                     'highestColumnIndex' => $module->highestColumnIndex, ]);
 
-                return $this->render('map.twig', ['model' => $model, 'module' => $module, 'mapFormAction' => $mapFormAction]);
+                return $this->render('map.php', ['model' => $model, 'module' => $module, 'mapFormAction' => $mapFormAction]);
             }
             // Upload/prepare failed - show upload view
-            return $this->render('upload.twig', ['model' => $model, 'module' => $module]);
+            return $this->render('upload.php', ['model' => $model, 'module' => $module]);
         }
         // Form not submitted yet - show upload view
-        return $this->render('upload.twig', ['model' => $model, 'module' => $module]);
+        return $this->render('upload.php', ['model' => $model, 'module' => $module]);
     }
 
     public function actionMap()
@@ -80,7 +80,7 @@ class ImportController extends Controller
             $module->import($sheet);
 
             // Report back
-            return $this->render('done.twig', ['module' => $module]);
+            return $this->render('done.php', ['module' => $module]);
         }
     }
 }

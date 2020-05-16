@@ -12,7 +12,11 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'importSpreadsheet' => [
+            'class' => 'backend\modules\importSpreadsheet\ImportSpreadsheet',
+        ],        
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
