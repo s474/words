@@ -386,8 +386,7 @@ class ImportSpreadsheet extends \yii\base\Module
             
             if (!$relation) {            
                 $err[] = $this->matchRelation . ' relation not found in ' . $this->model;
-            } else {                
-                //var_dump($relation);
+            } else {
                 if (!$relation->primaryModel->hasProperty($this->matchField)) {
                     $err[] = $this->matchField . ' not found in ' . $relation->modelClass . ' (from relation: ' . $this->matchRelation . ')';
                 }
