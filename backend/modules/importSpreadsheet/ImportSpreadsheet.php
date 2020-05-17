@@ -18,6 +18,8 @@ class ImportSpreadsheet extends \yii\base\Module
     private $skipRows = 0;
     private $matchField = 'name';    
     private $matchRelation = null; // Use if importing to a 'joining' table (e.g. 'WordlistWords', matchField will look in related model)    
+    private $matchRelatedModelClass; // Gets set when checking valid matchRelation
+    private $matchRelatedField; // Gets set when checking valid matchRelation    
     private $returnRoute;
     private $matchCol;
     private $headings; // All column headings from sheet
@@ -75,6 +77,14 @@ class ImportSpreadsheet extends \yii\base\Module
             
             if (isset($get['matchRelation'])) {
                 $this->matchRelation = $get['matchRelation'];
+            }
+
+            if (isset($get['matchRelatedModelClass'])) {
+                $this->matchRelatedModelClass = $get['matchRelatedModelClass'];
+            }
+
+            if (isset($get['matchRelatedField'])) {
+                $this->matchRelatedField = $get['matchRelatedField'];
             }            
 
             if (isset($get['returnRoute'])) {
@@ -195,7 +205,27 @@ class ImportSpreadsheet extends \yii\base\Module
     public function getMatchRelation()
     {
         return $this->matchRelation;
-    }    
+    }
+
+    public function setMatchRelatedModelClass($value)
+    {
+        $this->matchRelatedModelClass = $value;
+    }
+
+    public function getMatchRelatedModelClass()
+    {
+        return $this->matchRelatedModelClass;
+    } 
+    
+    public function setMatchRelatedField($value)
+    {
+        $this->matchRelatedField = $value;
+    }
+
+    public function getMatchRelatedField()
+    {
+        return $this->matchRelatedField;
+    }     
 
     public function setReturnRoute($value)
     {
@@ -378,11 +408,12 @@ class ImportSpreadsheet extends \yii\base\Module
         $notPermittedHeadings = [];
         $err = [];
 
-        $uModel = new $this->model();
+        $updateModel = new $this->model();
         
         if (isset($this->matchRelation)) { 
-            
-            $relation = $uModel->getRelation($this->matchRelation);
+                    
+            $relation = $updateModel->getRelation($this->matchRelation);
+            //var_dump($relation);
             
             if (!$relation) {            
                 $err[] = $this->matchRelation . ' relation not found in ' . $this->model;
@@ -390,16 +421,20 @@ class ImportSpreadsheet extends \yii\base\Module
                 if (!$relation->primaryModel->hasProperty($this->matchField)) {
                     $err[] = $this->matchField . ' not found in ' . $relation->modelClass . ' (from relation: ' . $this->matchRelation . ')';
                 }
+                
+                // matchRelation is OK, remember related model and foreign key field to use when importing
+                $this->matchRelatedModelClass = $relation->modelClass;
+                $this->matchRelatedField = $relation->link->id;                                
             }
             
         } else {
-            if (!$uModel->hasProperty($this->matchField)) {            
+            if (!$updateModel->hasProperty($this->matchField)) {            
                 $err[] = $this->matchField . ' not found in ' . $this->model;
             }
         }
         
         foreach ($this->setFields as $setField => $setValue) {
-            if (!$uModel->hasProperty($setField)) {
+            if (!$updateModel->hasProperty($setField)) {
                 $err[] = 'setField[\'' . $setField . '\'] not found in ' . $this->model;
             }
         }
@@ -423,7 +458,7 @@ class ImportSpreadsheet extends \yii\base\Module
             // Save columm headings in arrays
             $headings[] = $cellValue;
             if (in_array($cellValue, $this->fields) || count($this->fields) == 0) {
-                if ($uModel->hasProperty($cellValue)) {
+                if ($updateModel->hasProperty($cellValue)) {
                     $foundHeadings[] = $cellValue;
                     $foundHeadingCols[] = $col;
                 } else {
@@ -484,45 +519,65 @@ class ImportSpreadsheet extends \yii\base\Module
         for ($row = $firstRow + 1; $row <= $this->highestRow; ++$row) {
             $cellValues = [];
             $newRecord = false;
-
-            // Look for existing record - create new if not found
+            $newRelatedRecord = false;
+            
             $matchValue = $sheet->getCellByColumnAndRow($this->matchCol, $row)->getCalculatedValue();
-            $uModel = $this->model::findOne([$this->matchField => $matchValue]);
-            if (!isset($uModel->id)) {
-                $uModel = new $this->model();
-                $newRecord = true;
-            }
 
+            if (isset($this->matchRelation)) {            
+                
+                $relatedModel = $this->matchRelatedModelClass::findOne([$this->matchField => $matchValue]);                                
+                if (!isset($relatedModel->id)) {                    
+                    $relatedModel = new $this->matchRelatedModelClass();                    
+                    $newRelatedRecord = true;
+                }
+                               
+                $updateModel = $this->model::findOne([$this->matchRelatedField => $relatedModel->id, $this->setFields]);
+                if (!isset($updateModel->id)) {
+                    $updateModel = new $this->model();
+                    // set vals
+                    $newRecord = true;
+                }
+                
+            } else {
+                
+                $updateModel = $this->model::findOne([$this->matchField => $matchValue, $this->setFields]);                
+                if (!isset($updateModel->id)) {
+                    $updateModel = new $this->model();
+                    // set vals
+                    $newRecord = true;
+                }                
+            }
+                                              
             $i = 0;
             foreach ($this->fieldCols as $col) {
                 if ($col == $this->matchCol) {
                     $cellValue = $matchValue;
                     if ($newRecord) {
-                        $uModel->{$this->fields[$i]} = $cellValue;
+                        $updateModel->{$this->fields[$i]} = $cellValue;
                     }
                 } else {
                     $cellValue = $sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
-                    $uModel->{$this->fields[$i]} = $cellValue;
+                    $updateModel->{$this->fields[$i]} = $cellValue;
                 }
                 $cellValues[] = $cellValue;
                 $i++;
             }
 
-            if ($uModel->save()) {
+            if ($updateModel->save()) {
                 if ($newRecord) {
-                    $ok = ['result' => 'okNew', 'id' => $uModel->id, 'values' => $cellValues];
+                    $ok = ['result' => 'okNew', 'id' => $updateModel->id, 'values' => $cellValues];
                     $okNew[] = $ok;
                 } else {
-                    $ok = ['result' => 'okUpdated', 'id' => $uModel->id, 'values' => $cellValues];
+                    $ok = ['result' => 'okUpdated', 'id' => $updateModel->id, 'values' => $cellValues];
                     $okUpdated[] = $ok;
                 }
                 $rows[] = $ok;
             } else {
                 if ($newRecord) {
-                    $failed = ['result' => 'failedNew', 'id' => '', 'values' => $cellValues, 'errors' => $uModel->getErrors()];
+                    $failed = ['result' => 'failedNew', 'id' => '', 'values' => $cellValues, 'errors' => $updateModel->getErrors()];
                     $failedNew[] = $failed;
                 } else {
-                    $failed = ['result' => 'failedUpdated', 'id' => $uModel->id, 'values' => $cellValues, 'errors' => $uModel->getErrors()];
+                    $failed = ['result' => 'failedUpdated', 'id' => $updateModel->id, 'values' => $cellValues, 'errors' => $updateModel->getErrors()];
                     $failedUpdated[] = $failed;
                 }
                 $rows[] = $failed;
@@ -535,4 +590,5 @@ class ImportSpreadsheet extends \yii\base\Module
         $this->reportFailedNew = $failedNew;
         $this->reportFailedUpdated = $failedUpdated;
     }
+    
 }

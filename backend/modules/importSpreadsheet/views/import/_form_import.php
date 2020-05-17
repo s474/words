@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 
 <?php $form = ActiveForm::begin() ?>
 	
-	<?php
+    <?php
         $form->action = Url::to(['import/map',
             'model' => $module->model,
             'file' => $module->file,
@@ -16,6 +16,9 @@ use yii\widgets\ActiveForm;
             'autoMap' => $module->autoMap,
             'skipRows' => $module->skipRows,
             'matchField' => $module->matchField,
+            'matchRelation' => $module->matchRelation,
+            'matchRelatedModelClass' => $module->matchRelatedModelClass,
+            'matchRelatedField' => $module->matchRelatedField,            
             'returnRoute' => $module->returnRoute,
             'matchCol' => $module->matchCol,
             'headings' => $module->headings,

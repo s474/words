@@ -43,6 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
     var_dump($module->skipRows);
     echo '</pre><br /><br /><pre><b>matchField</b><br />';
     var_dump($module->matchField);
+    echo '</pre><br /><br /><pre><b>matchRelation</b><br />';
+    var_dump($module->matchRelation); 
     echo '</pre><br /><br /><pre><b>returnRoute</b><br />';
     var_dump($module->returnRoute);
     echo '</pre><br /><br /><pre><b>rows</b><br />';
