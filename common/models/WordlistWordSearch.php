@@ -18,6 +18,7 @@ class WordlistWordSearch extends WordlistWord
     {
         return [
             [['id', 'wordlist_id', 'word_id'], 'integer'],
+            [['definition'], 'safe'],
         ];
     }
 
@@ -61,6 +62,8 @@ class WordlistWordSearch extends WordlistWord
             'wordlist_id' => $this->wordlist_id,
             'word_id' => $this->word_id,
         ]);
+
+        $query->andFilterWhere(['like', 'definition', $this->definition]);
 
         return $dataProvider;
     }

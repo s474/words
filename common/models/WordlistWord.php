@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $wordlist_id
  * @property int $word_id
+ * @property string|null $definition
  *
  * @property Wordlist $wordlist
  * @property Word $word
@@ -32,6 +33,7 @@ class WordlistWord extends \yii\db\ActiveRecord
         return [
             [['wordlist_id', 'word_id'], 'required'],
             [['wordlist_id', 'word_id'], 'integer'],
+            [['definition'], 'string'],
             [['wordlist_id'], 'exist', 'skipOnError' => true, 'targetClass' => Wordlist::className(), 'targetAttribute' => ['wordlist_id' => 'id']],
             [['word_id'], 'exist', 'skipOnError' => true, 'targetClass' => Word::className(), 'targetAttribute' => ['word_id' => 'id']],
         ];
@@ -46,6 +48,7 @@ class WordlistWord extends \yii\db\ActiveRecord
             'id' => 'ID',
             'wordlist_id' => 'Wordlist ID',
             'word_id' => 'Word ID',
+            'definition' => 'Definition',
         ];
     }
 

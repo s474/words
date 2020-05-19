@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'wordlist_id',
             'word_id',
+            'definition:ntext',
         ],
     ]) ?>
 

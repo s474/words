@@ -424,7 +424,10 @@ class ImportSpreadsheet extends \yii\base\Module
                 
                 // matchRelation is OK, remember related model and foreign key field to use when importing
                 $this->matchRelatedModelClass = $relation->modelClass;
-                $this->matchRelatedField = $relation->link->id;                                
+                $this->matchRelatedField = $relation->link['id'];                 
+                //Yii::debug('SJA',$this->matchRelatedField);
+                //Yii::debug('SJA',$relation);
+                //var_dump($relation);
             }
             
         } else {
@@ -523,18 +526,30 @@ class ImportSpreadsheet extends \yii\base\Module
             
             $matchValue = $sheet->getCellByColumnAndRow($this->matchCol, $row)->getCalculatedValue();
 
-            if (isset($this->matchRelation)) {            
+            if (isset($this->matchRelation)) {
                 
                 $relatedModel = $this->matchRelatedModelClass::findOne([$this->matchField => $matchValue]);                                
                 if (!isset($relatedModel->id)) {                    
                     $relatedModel = new $this->matchRelatedModelClass();                    
+                    $relatedModel->{$this->matchField} = $matchValue;
+                    if ($relatedModel->save()) {                        
+                        $ok = ['result' => 'okNewRelated', 'id' => $relatedModel->id, 'value' => $matchValue];
+                        $okNew[] = $ok;                        
+                    } else {                        
+                        $failed = ['result' => 'failedNewRelated', 'id' => '', 'value' => $matchValue, 'errors' => $updateModel->getErrors()];
+                        $failedNew[] = $failed;                        
+                    }
                     $newRelatedRecord = true;
-                }
-                               
-                $updateModel = $this->model::findOne([$this->matchRelatedField => $relatedModel->id, $this->setFields]);
+                }               
+                if (!$newRelatedRecord) {
+                    $updateModel = $this->model::findOne([$this->matchRelatedField => $relatedModel->id, $this->setFields]);                    
+                }            
                 if (!isset($updateModel->id)) {
                     $updateModel = new $this->model();
-                    // set vals
+                    $updateModel->{$this->matchRelatedField} = $relatedModel->id;
+                    foreach ($this->setFields as $setField => $setValue) {
+                        $updateModel->$setField = $setValue;
+                    }                    
                     $newRecord = true;
                 }
                 
@@ -543,21 +558,23 @@ class ImportSpreadsheet extends \yii\base\Module
                 $updateModel = $this->model::findOne([$this->matchField => $matchValue, $this->setFields]);                
                 if (!isset($updateModel->id)) {
                     $updateModel = new $this->model();
-                    // set vals
+                      foreach ($this->setFields as $setField => $setValue) {
+                        $updateModel->$setField = $relatedModel->$setValue;
+                    }
                     $newRecord = true;
                 }                
             }
                                               
-            $i = 0;
+            $i = 0;            
             foreach ($this->fieldCols as $col) {
                 if ($col == $this->matchCol) {
-                    $cellValue = $matchValue;
+                    $cellValue = $matchValue;                                                            
                     if ($newRecord) {
                         $updateModel->{$this->fields[$i]} = $cellValue;
-                    }
+                    }                                                            
                 } else {
-                    $cellValue = $sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();
-                    $updateModel->{$this->fields[$i]} = $cellValue;
+                    $cellValue = $sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();                                                            
+                    $updateModel->{$this->fields[$i]} = $cellValue;                                        
                 }
                 $cellValues[] = $cellValue;
                 $i++;
