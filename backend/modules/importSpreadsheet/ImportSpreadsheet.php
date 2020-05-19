@@ -570,7 +570,11 @@ class ImportSpreadsheet extends \yii\base\Module
                 if ($col == $this->matchCol) {
                     $cellValue = $matchValue;                                                            
                     if ($newRecord) {
-                        $updateModel->{$this->fields[$i]} = $cellValue;
+                        if (isset($this->matchRelation)) {
+                            $updateModel->{$this->matchRelatedField} = $relatedModel->id;                            
+                        } else {
+                            $updateModel->{$this->fields[$i]} = $cellValue;
+                        }
                     }                                                            
                 } else {
                     $cellValue = $sheet->getCellByColumnAndRow($col, $row)->getCalculatedValue();                                                            
