@@ -32,6 +32,7 @@ class Word extends \yii\db\ActiveRecord
             [['word'], 'required'],
             [['definition'], 'string'],
             [['word'], 'string', 'max' => 255],
+            [['word'], 'unique'],
         ];
     }
 
