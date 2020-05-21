@@ -2,6 +2,8 @@ Link to importSpreadsheet/import/upload,
 
 Must pass model.
 
+skipRows skips to Column Headings, at the moment you must have column heading, but they don't have to be top row.
+
 Usually tables have a field 'name' - this is default value of matchField. set e.g. 'matchField' => 'word', if not matching on name field (for duplicates inserting from spreadsheet).
 
 If passing a matchRelation then matchField will be in the related table, use if importing to a joining table (e.g. WordlistWords, matchField will look for 'word' in related model)    

@@ -46,6 +46,21 @@ $this->params['breadcrumbs'][] = 'Update';
             'returnRoute' => Yii::$app->request->url,
         ], 
         ['class' => 'btn btn-primary']) 
-    ?>    
+    ?> 
+    
+    <?= Html::a(Yii::t('app', 'Import WordlistWords Manual Map skipRows 2'),
+        [
+            'importSpreadsheet/import/upload', 
+            'model' => '\common\models\WordlistWord',
+            'matchField' => 'word',
+            'matchRelation' => 'word',            
+            'fields' => ['word', 'definition'],
+            'setFields' => ['wordlist_id' => $model->id],
+            'autoMap' => 0,
+            'skipRows' => 2,            
+            'returnRoute' => Yii::$app->request->url,
+        ], 
+        ['class' => 'btn btn-primary']) 
+    ?>     
 
 </div>
