@@ -523,6 +523,8 @@ class ImportSpreadsheet extends \yii\base\Module
             $cellValues = [];
             $newRecord = false;
             $newRelatedRecord = false;
+            unset($relatedModel);
+            unset($updateModel);
             
             $matchValue = $sheet->getCellByColumnAndRow($this->matchCol, $row)->getCalculatedValue();
 
