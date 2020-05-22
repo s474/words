@@ -498,9 +498,12 @@ class ImportSpreadsheet extends \yii\base\Module
         $fieldCols = [];
 
         foreach ($this->fields as $f) {
-            $fieldCols[] = ($post['ImportForm'][$f] + 1); // PhpSpreadsheet counts columns from 1
-            if ($f == $this->matchField) {
-                $this->matchCol = ($post['ImportForm'][$f] + 1); // PhpSpreadsheet counts columns from 1
+            
+            if ($post['ImportForm'][$f] != '') {
+                $fieldCols[] = ($post['ImportForm'][$f] + 1); // PhpSpreadsheet counts columns from 1
+                if ($f == $this->matchField) {
+                    $this->matchCol = ($post['ImportForm'][$f] + 1); // PhpSpreadsheet counts columns from 1
+                }
             }
         }
 
