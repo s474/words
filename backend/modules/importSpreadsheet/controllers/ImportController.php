@@ -73,9 +73,9 @@ class ImportController extends Controller
 
         if ($request->isPost) {
             $post = $request->post();
-            Yii::debug($post,'ACK');
+            Yii::debug($post,'SJA');
             $module = Yii::$app->getModule('importSpreadsheet');
-            //Yii::debug('ACK',$module);
+            Yii::debug($module,'SJA');
             $module->prepareMap($post);
 
             // Need to reload sheet - don't need to upload again though

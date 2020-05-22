@@ -425,9 +425,8 @@ class ImportSpreadsheet extends \yii\base\Module
                 // matchRelation is OK, remember related model and foreign key field to use when importing
                 $this->matchRelatedModelClass = $relation->modelClass;
                 $this->matchRelatedField = $relation->link['id'];                 
-                //Yii::debug('ACK',$this->matchRelatedField);
-                //Yii::debug('ACK',$relation);
-                //var_dump($relation);
+                //Yii::debug($this->matchRelatedField,'SJA');
+                //Yii::debug($relation,'SJA');
             }
             
         } else {

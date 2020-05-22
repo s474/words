@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = 'Update';
         ], 
         ['class' => 'btn btn-primary']) 
     ?> 
-    
+    <!--
     <?= Html::a(Yii::t('app', 'Import WordlistWords Manual Map skipRows 2'),
         [
             'importSpreadsheet/import/upload', 
@@ -62,5 +62,5 @@ $this->params['breadcrumbs'][] = 'Update';
         ], 
         ['class' => 'btn btn-primary']) 
     ?>     
-
+    -->
 </div>
