@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = 'Update';
                 'attribute' => 'word.word',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a($data->word->word, ['word/update', 'id' => $data->id]);
+                    return Html::a($data->word->word, ['wordlist-word/update', 'id' => $data->id]);
                 },                        
             ],
             [
@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = 'Update';
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if ($action === 'delete') {
-                        $url = Url::to(['word/delete', 'id' => $model->id]);
+                        $url = Url::to(['wordlist-word/delete', 'id' => $model->id]);
                         return $url;
                     }
                 }
