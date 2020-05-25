@@ -12,10 +12,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'wordlist_id')->textInput() ?>
+    <?= $form->field($model, 'wordlist_id')->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'word_id')->textInput() ?>
-
+    <?= $form->field($model, 'word_id')->hiddenInput()->label(false) ?>
+    
     <?= $form->field($model, 'definition')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

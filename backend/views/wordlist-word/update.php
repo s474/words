@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\WordlistWord */
 
-$this->title = 'Update Wordlist Word: ' . $model->id;
+$this->title = 'Update List Word: ' . $model->word->word;
 $this->params['breadcrumbs'][] = ['label' => 'Wordlist Words', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
