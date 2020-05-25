@@ -44,7 +44,7 @@ class Wordlist extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'user_id' => 'User',
             'name' => 'Name',
         ];
     }

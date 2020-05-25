@@ -46,9 +46,9 @@ class WordlistWord extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'wordlist_id' => 'Wordlist ID',
-            'word_id' => 'Word ID',
-            'definition' => 'Definition',
+            'wordlist_id' => 'Wordlist',
+            'word_id' => 'Word',
+            'definition' => 'Wordlist definition',
         ];
     }
 
