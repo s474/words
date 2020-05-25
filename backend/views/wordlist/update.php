@@ -22,14 +22,42 @@ $this->params['breadcrumbs'][] = 'Update';
     ]) ?>    
 
     <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'dataProvider' => $wordlistWordDataProvider,
-        'filterModel' => $wordlistWordSearchModel,
+        'filterModel' => $wordlistWordSearchModel,        
         'columns' => [
-            'word.word',            
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'word.word',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a($data->word->word, ['word/update', 'id' => $data->id]);
+                },                        
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                            'title' => Yii::t('app', 'Delete'),
+                            'data' => [
+                                'confirm' => 'Are you sure you want to delete this item?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    }
+                ],
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    if ($action === 'delete') {
+                        $url = Url::to(['word/delete', 'id' => $model->id]);
+                        return $url;
+                    }
+                }
+            ], 
         ],
     ]); ?>
-
+     
     <p>
         <?= Html::a('Add Word', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -47,20 +75,5 @@ $this->params['breadcrumbs'][] = 'Update';
         ], 
         ['class' => 'btn btn-primary']) 
     ?> 
-    <!--
-    <?= Html::a(Yii::t('app', 'Import WordlistWords Manual Map skipRows 2'),
-        [
-            'importSpreadsheet/import/upload', 
-            'model' => '\common\models\WordlistWord',
-            'matchField' => 'word',
-            'matchRelation' => 'word',            
-            'fields' => ['word', 'definition'],
-            'setFields' => ['wordlist_id' => $model->id],
-            'autoMap' => 0,
-            'skipRows' => 2,            
-            'returnRoute' => Yii::$app->request->url,
-        ], 
-        ['class' => 'btn btn-primary']) 
-    ?>     
-    -->
+
 </div>
