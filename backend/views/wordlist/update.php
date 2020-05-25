@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Wordlist */
 
-$this->title = 'Update Wordlist: ' . $model->name;
+$this->title = 'Update List: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Wordlists', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
