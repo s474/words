@@ -31,7 +31,21 @@ $this->params['breadcrumbs'][] = 'Update';
                 'attribute' => 'word.word',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a($data->word->word, ['wordlist-word/update', 'id' => $data->id]);
+                    return Html::a($data->word->word, ['word/update', 'id' => $data->word_id]);
+                },                        
+            ],
+            [
+                'attribute' => 'word.definition',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a($data->word->definition, ['word/update', 'id' => $data->word_id]);
+                },                        
+            ],
+            [
+                'attribute' => 'definition',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a($data->definition, ['wordlist-word/update', 'id' => $data->id]);
                 },                        
             ],
             [
