@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'word_id')->hiddenInput()->label(false) ?>
     
-    <?= $form->field($model, 'definition')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

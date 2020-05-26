@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = 'Update';
                 'attribute' => 'word.word',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a($data->word->word, ['word/update', 'id' => $data->word_id]);
+                    return Html::a($data->word->word, ['wordlist-word/update', 'id' => $data->id]);
                 },                        
             ],
             [
@@ -42,10 +42,10 @@ $this->params['breadcrumbs'][] = 'Update';
                 },                        
             ],
             [
-                'attribute' => 'definition',
+                'attribute' => 'notes',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return Html::a($data->definition, ['wordlist-word/update', 'id' => $data->id]);
+                    return Html::a($data->notes, ['wordlist-word/update', 'id' => $data->id]);
                 },                        
             ],
             [
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = 'Update';
             'model' => '\common\models\WordlistWord',
             'matchField' => 'word',
             'matchRelation' => 'word',            
-            'fields' => ['word', 'definition'],
+            'fields' => ['word', 'notes'],
             'setFields' => ['wordlist_id' => $model->id],
             'autoMap' => 0,
             'returnRoute' => Yii::$app->request->url,

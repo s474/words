@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `wordlist_word` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `wordlist_id` int(11) NOT NULL,
   `word_id` int(11) NOT NULL,
-  `definition` text COLLATE utf8_unicode_ci,  
+  `notes` text COLLATE utf8_unicode_ci,  
   PRIMARY KEY (`id`),
   KEY `word_id` (`word_id`),
   KEY `wordlist_id` (`wordlist_id`)
