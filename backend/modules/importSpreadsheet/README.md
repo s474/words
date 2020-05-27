@@ -8,6 +8,13 @@ Usually tables have a field 'name' - this is default value of matchField. set e.
 
 If passing a matchRelation then matchField will be in the related table, use if importing to a joining table (e.g. WordlistWords, matchField will look for 'word' in related model)    
 
+Creates new entry in related table (e.g. Word when Importing WordlistWords) however WILL ONLY IMPORT VALUES other than matchField TO model, not related model (maybe change TODO)
+
+No fields required at mo except matchField (TODO) - see ImportForm.php
+ 
+ALWAYS OVERWRITES FIELDS at mo - will blank out values if fields in spreadsheet empty
+
+
 <?= Html::a(Yii::t('app', 'Import WordlistWords Manual Map'),
     [
         'importSpreadsheet/import/upload', 
