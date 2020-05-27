@@ -14,6 +14,8 @@ No fields required at mo except matchField (TODO) - see ImportForm.php
  
 ALWAYS OVERWRITES FIELDS at mo - will blank out values if fields in spreadsheet empty
 
+Assumes all models have an autoinc ID PK
+
 
 <?= Html::a(Yii::t('app', 'Import WordlistWords Manual Map'),
     [
