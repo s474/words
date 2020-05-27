@@ -22,8 +22,6 @@ $this->params['breadcrumbs'][] = 'Update';
     ]) ?>    
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'dataProvider' => $wordlistWordDataProvider,
         'filterModel' => $wordlistWordSearchModel,        
         'columns' => [
