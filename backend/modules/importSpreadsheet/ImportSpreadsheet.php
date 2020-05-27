@@ -545,27 +545,29 @@ class ImportSpreadsheet extends \yii\base\Module
                     }
                     $newRelatedRecord = true;
                 }               
-                if (!$newRelatedRecord) {
-                    $updateModel = $this->model::findOne([$this->matchRelatedField => $relatedModel->id, $this->setFields]);                    
+                if (!$newRelatedRecord) {                    
+                    $findFields = $this->setFields;
+                    $findFields[$this->matchRelatedField] = $relatedModel->id;                    
+                    $updateModel = $this->model::findOne($findFields);
                 }            
                 if (!isset($updateModel->id)) {
-                    $updateModel = new $this->model();
-                    $updateModel->{$this->matchRelatedField} = $relatedModel->id;
-                    foreach ($this->setFields as $setField => $setValue) {
-                        $updateModel->$setField = $setValue;
-                    }                    
+                    $updateModel = new $this->model();               
+                    $updateModel->{$this->matchRelatedField} = $relatedModel->id;                    
                     $newRecord = true;
-                }
-                
-            } else {
-                
-                $updateModel = $this->model::findOne([$this->matchField => $matchValue, $this->setFields]);                
+                }                
+                foreach ($this->setFields as $setField => $setValue) {
+                    $updateModel->$setField = $setValue;
+                }                
+            } else {                               
+                $findFields = $this->setFields;
+                $findFields[$this->matchField] = $matchValue;                
+                $updateModel = $this->model::findOne($findFields);
                 if (!isset($updateModel->id)) {
                     $updateModel = new $this->model();
-                      foreach ($this->setFields as $setField => $setValue) {
-                        $updateModel->$setField = $relatedModel->$setValue;
-                    }
                     $newRecord = true;
+                }
+                foreach ($this->setFields as $setField => $setValue) {
+                    $updateModel->$setField = $relatedModel->$setValue;
                 }                
             }
                                               
